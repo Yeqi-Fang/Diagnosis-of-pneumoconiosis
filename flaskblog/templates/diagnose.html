@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+
+            <div class="media-body mr-2">
+                <h2 class="account-heading">请提交您的信息</h2>
+                <p class="text-secondary">X光片是诊断尘肺病的重要依据，为了诊断的有效性，
+                    请上传清晰完整的胸部X光片。
+                </p>
+                <p class="text-secondary">
+                      同时，年龄，性别，吸烟史，二氧化硅、石棉粉尘暴露史也是重要的参考，请如实上传
+                </p>
+                <p class="text-secondary">如右图所示</p>
+            </div>
+            <img class="mr-3 mt-2" src="{{ image_file }}" height="200">
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">请提交</legend>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.age.label(class="form-control-label") }}
+                    {% if form.age.errors %}
+                        {{ form.age(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.age.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.age(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.sex.label(class="form-control-label") }}
+                    {% if form.sex.errors %}
+                        {{ form.sex(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.sex.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.sex(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.exposure_year.label(class="form-control-label") }}
+                    {% if form.exposure_year.errors %}
+                        {{ form.exposure_year(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.exposure_year.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.exposure_year(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.smoke.label(class="form-control-label") }}
+                    {% if form.smoke.errors %}
+                        {{ form.smoke(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.smoke.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.smoke(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

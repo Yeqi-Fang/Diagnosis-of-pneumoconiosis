@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% if flag %}
+        <div class="content-section">
+            <div class="media">
+
+                <div>
+                    <div>
+                        <span class="account-heading">{{ img_date_result_id[0][1].strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                        <span class="ml-1">（您的最近一次提交）</span>
+                    </div>
+
+                    <div class="article-title mr-3">
+                        {% if img_date_result_id[0][2]==True %}
+                            <div class="row">
+                                <div class="col-8">
+                                    <span class="alert-danger"
+                                          style="font-size:19pt">您的诊断结果为：<b>{{ txt }}</b></span>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-danger ml-5"
+                                       href="{{ url_for('details', post_id=img_date_result_id[0][3]) }}">查看详情</a>
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="row">
+                                <div class="col">
+                                    <span class="alert-success "
+                                          style="font-size:18pt">您的诊断结果为：<b>正常</b></span>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-success ml-5"
+                                       href="{{ url_for('details', post_id=img_date_result_id[0][3]) }}">查看详情</a>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    </div>
+                    <div class="mt-3">
+                        <img class="mr-2" src="{{ img_date_result_id[0][0] }}" height="400">
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <h1>历史记录</h1>
+        {% for image_file, date, result, id in img_date_result_id[1:] %}
+            <div class="content-section">
+                <div class="media">
+
+                    <div>
+                        <div class="site-header"><span>{{ date.strftime('%Y-%m-%d %H:%M:%S') }}</span></div>
+                        <div class="article-title mr-3">
+                            <div class="row">
+                                {% if result==True %}
+                                    <div class="col">
+                                        <span class="alert-danger mb-2" style="font-size:14pt">您的诊断结果为：<b>异常</b></span>
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-danger btn-sm ml-5 mb-2"
+                                           href="{{ url_for('details', post_id=id) }}">查看详情</a>
+                                    </div>
+                                {% else %}
+                                    <div class="col">
+                                        <span class="alert-success mb-2 " style="font-size:14pt"> 您的诊断结果为：<b>正常</b></span>
+                                    </div>
+                                    <div class="col">
+                                        <a class="btn btn-success btn-sm ml-5 mb-2"
+                                           href="{{ url_for('details', post_id=id) }}">查看详情</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        <img class="mr-2" src="{{ image_file }}" height="300">
+
+                    </div>
+                </div>
+
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="account-heading">您还没有提交X光片哦。</div>
+    {% endif %}
+{% endblock content %}
