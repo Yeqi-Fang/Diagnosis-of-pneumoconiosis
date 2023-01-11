@@ -119,7 +119,7 @@ def diagnosis():
         flash('您的胸片成功上传', 'success')
         return redirect(url_for('account'))
 
-    image_file = url_for('static', filename='profile_pics/' + 'default.jpeg')
+    image_file = url_for('static', filename='default.jpeg')
     print('image_file', image_file)
     return render_template('diagnose.html', title='diagnose',
                            image_file=image_file, form=form)
