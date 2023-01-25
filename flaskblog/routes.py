@@ -100,7 +100,7 @@ def diagnosis():
     if request.method == 'POST':
         picture_file = save_picture(form.picture.data)
         path = os.path.join(
-            'flaskblog\\static\\profile_pics',
+            'flaskblog/static/profile_pics',
             picture_file)
         print(path)
         image = cv2.imread(path)
