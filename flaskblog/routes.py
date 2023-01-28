@@ -102,10 +102,13 @@ def diagnosis():
             'flaskblog\\static\\profile_pics',
             picture_file)
         print(path)
-        image = cv2.imread(path)
-        image = cv2.resize(image, (150, 150))
 
-        image = image[np.newaxis, :, :, :]
+        image = Image.open(path)
+        image = image.resize((150, 150))
+        image = np.array(image)
+        image = image[np.newaxis, :, :, np.newaxis]
+        image = image.repeat(3, 3)
+
         image = np.array(image, dtype='float16')
         pred = model.predict(image)
         PNEUMONIA = bool(np.round(pred[:, 1][0]))
