@@ -1,4 +1,2 @@
-flaskblog/static/profile_pics
-*.db
 .idea
 migrations
