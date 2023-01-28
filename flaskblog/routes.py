@@ -211,7 +211,7 @@ def get_counsel(xray):
             pass
         else:
             lst.append(
-                f'您的二氧化硅或石棉粉尘暴露史为{exposure_year}，有{"一定" if exposure_year < 3 else "很高"}'
+                f'您的二氧化硅或石棉粉尘暴露史为{int(exposure_year)}年，有{"一定" if exposure_year < 3 else "很高"}'
                 f'的风险，建议筛查结核病，患者应通过结核菌素皮肤试验或血液试验进行结核病的筛查')
             cnt += 1
         if xray.age > 60:

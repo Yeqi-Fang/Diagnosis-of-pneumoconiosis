@@ -2,18 +2,25 @@
 {% block content %}
     <div class="content-section">
         <div class="media">
-
-            <div class="media-body mr-2">
-                <h2 class="account-heading">请提交您的信息</h2>
-                <p class="text-secondary">X光片是诊断尘肺病的重要依据，为了诊断的有效性，
-                    请上传清晰完整的胸部X光片。
-                </p>
-                <p class="text-secondary">
-                      同时，年龄，性别，吸烟史，二氧化硅、石棉粉尘暴露史也是重要的参考，请如实上传
-                </p>
-                <p class="text-secondary">如右图所示</p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="media-body mr-2">
+                        <h2 class="account-heading">请提交您的信息</h2>
+                        <p class="text-secondary">X光片是诊断尘肺病的重要依据，为了诊断的有效性，
+                            请上传清晰完整的胸部X光片。
+                        </p>
+                        <p class="text-secondary">
+                            同时，年龄，性别，吸烟史，二氧化硅、石棉粉尘暴露史也是重要的参考，请如实上传
+                        </p>
+                        <p class="text-secondary">如右图所示</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <img class="mr-3 mt-2" src="{{ image_file }}" width="90%">
+                </div>
             </div>
-            <img class="mr-3 mt-2" src="{{ image_file }}" height="200">
+
+
         </div>
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
