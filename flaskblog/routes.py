@@ -1,12 +1,12 @@
 import os
 import secrets
+import numpy as np
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, session
 from . import app, db, bcrypt, mail
 from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Xray
 from flask_login import login_user, current_user, logout_user, login_required
-import numpy as np
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.models import Sequential
@@ -97,29 +97,30 @@ def save_picture(form_picture):
 def diagnosis():
     form = Diagnosis()
     if request.method == 'POST':
-        picture_file = save_picture(form.picture.data)
-        path = os.path.join(
-            'flaskblog/static/profile_pics',
-            picture_file)
-        print(path)
+        if form.validate_on_submit():
+            picture_file = save_picture(form.picture.data)
+            path = os.path.join(
+                'flaskblog/static/profile_pics',
+                picture_file)
+            print(path)
 
-        image = Image.open(path)
-        image = image.resize((150, 150))
-        image = np.array(image)
-        image = image[np.newaxis, :, :, np.newaxis]
-        image = image.repeat(3, 3)
+            image = Image.open(path)
+            image = image.resize((150, 150))
+            image = np.array(image)
+            image = image[np.newaxis, :, :, np.newaxis]
+            image = image.repeat(3, 3)
 
-        image = np.array(image, dtype='float16')
-        pred = model.predict(image)
-        PNEUMONIA = bool(np.round(pred[:, 1][0]))
-        xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
-                    PNEUMONIA=PNEUMONIA, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
-                    author=current_user)
-        db.session.add(xray)
-        db.session.commit()
+            image = np.array(image, dtype='float16')
+            pred = model.predict(image)
+            PNEUMONIA = bool(np.round(pred[:, 1][0]))
+            xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
+                        PNEUMONIA=PNEUMONIA, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
+                        author=current_user)
+            db.session.add(xray)
+            db.session.commit()
 
-        flash('您的胸片成功上传', 'success')
-        return redirect(url_for('account'))
+            flash('您的胸片成功上传', 'success')
+            return redirect(url_for('account'))
 
     image_file = url_for('static', filename='default.jpeg')
     print('image_file', image_file)
