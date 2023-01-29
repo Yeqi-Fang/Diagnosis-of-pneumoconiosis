@@ -108,7 +108,7 @@ def diagnosis():
             image = image.resize((SIZE, SIZE))
             image = np.array(image)
             print(image.shape)
-            image = image[np.newaxis, :, :, :]
+            image = image[np.newaxis, :, :, np.newaxis]
             print(image.shape)
             image = image.repeat(3, 3)
             print(image.shape)
