@@ -110,7 +110,7 @@ def diagnosis():
             print(image.shape)
             image = image[np.newaxis, :, :, :]
             print(image.shape)
-            # image = image.repeat(3, 3)
+            image = image.repeat(3, 3)
             print(image.shape)
 
             image = np.array(image, dtype='float16')
