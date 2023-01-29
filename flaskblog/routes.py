@@ -107,11 +107,14 @@ def diagnosis():
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
             image = np.array(image)
-            print(image.shape)
-            image = image[np.newaxis, :, :, np.newaxis]
-            print(image.shape)
-            image = image.repeat(3, 3)
-            print(image.shape)
+            if image.shape == (150, 150):
+                print(image.shape)
+                image = image[np.newaxis, :, :, np.newaxis]
+                print(image.shape)
+                image = image.repeat(3, 3)
+                print(image.shape)
+            else:
+                image = image[np.newaxis, :, :, :]
 
             image = np.array(image, dtype='float16')
             pred = model.predict(image)
