@@ -12,7 +12,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     # image_file = db.Column(db.String(20), nullable=True, default='default.jpeg')
     password = db.Column(db.String(60), nullable=False)
@@ -40,12 +40,12 @@ class Xray(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    sex = db.Column(db.String(3), nullable=False)
+    sex = db.Column(db.String(100), nullable=False)
     exposure_year = db.Column(db.Float, nullable=False)
     smoke = db.Column(db.Float, nullable=False)
-    PNEUMONIA = db.Column(db.Boolean, nullable=True)
+    pneumonia = db.Column(db.Boolean, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    pic_address = db.Column(db.String(40), nullable=False)
+    pic_address = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # advise = db.Column(db.Text, nullable=True)
 

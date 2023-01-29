@@ -107,14 +107,17 @@ def diagnosis():
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
             image = np.array(image)
-            image = image[np.newaxis, :, :, np.newaxis]
-            image = image.repeat(3, 3)
+            print(image.shape)
+            image = image[np.newaxis, :, :, :]
+            print(image.shape)
+            # image = image.repeat(3, 3)
+            print(image.shape)
 
             image = np.array(image, dtype='float16')
             pred = model.predict(image)
-            PNEUMONIA = bool(np.round(pred[:, 1][0]))
+            pneumonia = bool(np.round(pred[:, 1][0]))
             xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
-                        PNEUMONIA=PNEUMONIA, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
+                        pneumonia=pneumonia, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
                         author=current_user)
             db.session.add(xray)
             db.session.commit()
@@ -141,7 +144,7 @@ def account():
         print('account', image_file)
         image_files.append(image_file)
         dates.append(Xray_.date_posted)
-        results.append(Xray_.PNEUMONIA)
+        results.append(Xray_.pneumonia)
         ids.append(Xray_.id)
     x = list(zip(reversed(image_files), reversed(dates), reversed(results), reversed(ids)))
     flag = 0
@@ -191,7 +194,7 @@ def get_txt(flag, cnt):
 def get_counsel(xray):
     exposure_year = xray.exposure_year
     cnt = 0
-    if not xray.PNEUMONIA:
+    if not xray.pneumonia:
         lst = [
             '1、建议定期复查，出入含粉尘场所做好防护措施，避免接触职业性或生活性粉尘。替换工作中的粉尘材料，消除粉尘暴露',
             '2、建议应用合理的劳动保护措施，施工时，使用防护系数高的呼吸器',

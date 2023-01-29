@@ -28,9 +28,9 @@ def dis(image_path):
 
     model.load_weights("model.hdf5")
 
-    # path = r"D:\scu\Innovation\Classifier\chest_xray\test\PNEUMONIA\*"
+    # path = r"D:\scu\Innovation\Classifier\chest_xray\test\pneumonia\*"
     # image_path = np.random.choice(glob.glob(path))
-    # abs_path = os.path.join(r'D:\scu\Innovation\Classifier\chest_xray\test\PNEUMONIA', image_path)
+    # abs_path = os.path.join(r'D:\scu\Innovation\Classifier\chest_xray\test\pneumonia', image_path)
     # a = cv2.imread(abs_path)
     # cv2.imshow('pic', a)
     # cv2.waitKey()
