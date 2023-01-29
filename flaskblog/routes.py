@@ -105,7 +105,7 @@ def diagnosis():
             print(path)
 
             image = Image.open(path)
-            image = image.resize((150, 150))
+            image = image.resize((SIZE, SIZE))
             image = np.array(image)
             image = image[np.newaxis, :, :, np.newaxis]
             image = image.repeat(3, 3)
