@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import (StringField, PasswordField, SubmitField,
                      BooleanField, IntegerField, FloatField, SelectField)
-from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError, InputRequired
 from flaskblog.models import User
 
 
@@ -40,8 +40,8 @@ class Diagnosis(FlaskForm):
     age = IntegerField('年龄', validators=[DataRequired(), NumberRange(min=0, max=130)])
     sex = SelectField('性别', choices=[('男', '男'), ('女', '女')], validators=[DataRequired()])
     exposure_year = FloatField('二氧化硅、石棉粉尘暴露时间/年，没有请填“0”',
-                               validators=[DataRequired(), NumberRange(min=-0.001, max=50)])
-    smoke = FloatField('吸烟史/年，没有请填“0”', validators=[DataRequired(), NumberRange(min=-0.001, max=50)])
+                               validators=[InputRequired(), NumberRange(min=0, max=50)])
+    smoke = FloatField('吸烟史/年，没有请填“0”', validators=[InputRequired(), NumberRange(min=0, max=50)])
     picture = FileField('您的胸部X光片， 请提交PNG，JPG格式', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('上传')
 
