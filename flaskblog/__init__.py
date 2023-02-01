@@ -9,7 +9,7 @@ from flask_mail import Mail
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:svHqasskZJprIQwL3HJA@containers-us-west-192.railway.app:7531/railway'
+app.config['SQLALCHEMY_DATABASE_URI'] = ''
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'  #
 app.config['MAIL_PORT'] = 587  # for outlook25
