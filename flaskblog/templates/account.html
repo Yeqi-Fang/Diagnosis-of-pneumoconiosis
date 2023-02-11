@@ -9,6 +9,10 @@
                     <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('excel') }}">临床信息上传</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="pill" href="{{ url_for('account') }}">诊断结果</a>
                 </li>
                 <li class="nav-item">
@@ -82,7 +86,8 @@
                             <div class="row">
                                 {% if result==True %}
                                     <div class="col">
-                                        <span class="alert-danger mb-2" style="font-size:14pt">您的诊断结果为：<b>异常</b></span>
+                                        <span class="alert-danger mb-2"
+                                              style="font-size:14pt">您的诊断结果为：<b>异常</b></span>
                                     </div>
                                     <div class="col">
                                         <a class="btn btn-danger btn-sm ml-5 mb-2"
@@ -90,7 +95,8 @@
                                     </div>
                                 {% else %}
                                     <div class="col">
-                                        <span class="alert-success mb-2 " style="font-size:14pt"> 您的诊断结果为：<b>正常</b></span>
+                                        <span class="alert-success mb-2 "
+                                              style="font-size:14pt"> 您的诊断结果为：<b>正常</b></span>
                                     </div>
                                     <div class="col">
                                         <a class="btn btn-success btn-sm ml-5 mb-2"

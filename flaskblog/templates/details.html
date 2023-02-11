@@ -9,6 +9,10 @@
                     <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('excel') }}">临床信息上传</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('account') }}">诊断结果</a>
                 </li>
                 <li class="nav-item ">
@@ -25,39 +29,40 @@
 {% block content %}
     <div class="container">
 
-            <h1>详情信息</h1>
+        <h1>详情信息</h1>
 
-            {% if flag == 2 %}
-                <div class="">
-                    <div>
-                        <span class="alert-danger">您的预后影响分析为：<span style="font-size: 18pt"><b>高风险</b></span></span>
-                    </div>
-                    <div>
-                        <p>您的胸部X光片发现异常！该诊疗结果不代表最终结果，请尽快前往医院做进一步筛查</p>
-                    </div>
+        {% if flag == 2 %}
+            <div class="">
+                <div>
+                    <span class="alert-danger">您的预后影响分析为：<span
+                            style="font-size: 18pt"><b>高风险</b></span></span>
                 </div>
-            {% elif flag == 1 %}
-                <div class="">
-                    <div>
-                        <span class="alert-danger">您的预后影响分析为：中风险</span>
-                    </div>
-                    <div>
-                        <p>您的胸部X光片未发现明显异常，但您的二氧化硅、石棉粉尘接触史和较高的年龄使得您成为尘肺的高危人群，请您定期检查，
-                            注意身体健康，发现异常应及时就医</p>
-                    </div>
+                <div>
+                    <p>您的胸部X光片发现异常！该诊疗结果不代表最终结果，请尽快前往医院做进一步筛查</p>
                 </div>
-            {% elif flag == 0 %}
-                <div class="ml-5">
-                    <div>
-                        <span class="alert-success">您的预后影响分析为：低风险</span>
-                    </div>
-                    <div>
-                        <p>未发现明显异常</p>
-                    </div>
+            </div>
+        {% elif flag == 1 %}
+            <div class="">
+                <div>
+                    <span class="alert-danger">您的预后影响分析为：中风险</span>
                 </div>
-            {% endif %}
-        </div>
-        <div id="main" style="width: 600px;height:400px;"></div>
+                <div>
+                    <p>您的胸部X光片未发现明显异常，但您的二氧化硅、石棉粉尘接触史和较高的年龄使得您成为尘肺的高危人群，请您定期检查，
+                        注意身体健康，发现异常应及时就医</p>
+                </div>
+            </div>
+        {% elif flag == 0 %}
+            <div class="ml-5">
+                <div>
+                    <span class="alert-success">您的预后影响分析为：低风险</span>
+                </div>
+                <div>
+                    <p>未发现明显异常</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div id="main" style="width: 600px;height:400px;"></div>
 
     <a class="btn btn-primary" href="{{ url_for('prescriptions', post_id=post_id) }}">诊疗建议</a>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->

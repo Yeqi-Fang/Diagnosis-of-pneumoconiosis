@@ -5,7 +5,10 @@
             {#                <h2>目录</h2>#}
             <ul class="nav nav-pills flex-column" role="tablist">
                 <li class="nav-item ">
-                    <a class="nav-link active" data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
+                    <a class="nav-link active " data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('excel') }}">临床信息上传</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('account') }}">诊断结果</a>
@@ -127,13 +130,13 @@
                         {{ form.drink(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
-
-
-                    <label for="myfile">请上传Excel表格</label>
-                    <input type="file" id="myfile" name="myfile">
-
-                </div>
+{#                <div class="form-group">#}
+{##}
+{##}
+{#                    <label for="myfile">请上传Excel表格</label>#}
+{#                    <input type="file" id="myfile" name="myfile">#}
+{##}
+{#                </div>#}
                 <div class="form-group">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}

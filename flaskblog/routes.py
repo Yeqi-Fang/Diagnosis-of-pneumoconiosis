@@ -315,3 +315,9 @@ def redirect_prescription():
     last_xray = Xray.query.filter_by(author=current_user).all()[-1]
     post_id = last_xray.id
     return redirect(url_for('prescriptions', post_id=post_id))
+
+
+@app.route("/excel", methods=['GET'])
+@login_required
+def excel():
+    return render_template('excel.html')
