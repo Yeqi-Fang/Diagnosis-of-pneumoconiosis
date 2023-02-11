@@ -63,44 +63,7 @@
                 {#              </ul>#}
                 {#            </p>#}
             </div>
-            <div class="content-section">
-                <div class="container mt-3 mb-4">
-                    {#                <h2>目录</h2>#}
-                    <ul class="nav nav-pills flex-column" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('account') }}">诊断结果</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="pill"
-                               href="{{ url_for('account') }}">预后分析</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="pill" href="{{ url_for('account') }}">诊疗建议</a>
-                        </li>
-                    </ul>
-
-                    {#                <div class="list-group">#}
-                    {#                    <a href="{{ url_for('diagnosis') }}"#}
-                    {#                       class="list-group-item list-group-item-action list-group-item-primary">数据录入</a>#}
-                    {#                    <a href="{{ url_for('account') }}"#}
-                    {#                       class="list-group-item list-group-item-action list-group-item-success">风险分数查询</a>#}
-                    {#                    <a href="{{ url_for('diagnosis') }}"#}
-                    {#                       class="list-group-item list-group-item-action list-group-item-secondary">诊疗建议查看</a>#}
-                    {#                    <a href="#" class="list-group-item list-group-item-action list-group-item-info">准础性识别</a>#}
-                    {#                    <a href="#" class="list-group-item list-group-item-action list-group-item-warning">计算风险阅值</a>#}
-                    {#                </div>#}
-                    {#                <ul class="list-group mt-4">#}
-                    {#                    <li class="list-group-item"><a href="{{ url_for('diagnosis') }}">数据录入</a></li>#}
-                    {#                    <li class="list-group-item">风险分数查询</li>#}
-                    {#                    <li class="list-group-item">变量排序与筛选</li>#}
-                    {#                    <li class="list-group-item">准础性识别</li>#}
-                    {#                    <li class="list-group-item">计算风险阅值</li>#}
-                    {#                </ul>#}
-                </div>
-            </div>
+            {% block bar %}{% endblock %}
 
 
         </div>

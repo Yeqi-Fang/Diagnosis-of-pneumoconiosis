@@ -1,53 +1,76 @@
 {% extends "layout.html" %}
-{% block content %}
-    <div class="container">
-    <div class="row">
-        <h1 >详情信息</h1>
-        {#        {{ xray.exposure_year }}#}
-        {#        {{ xray.age }}#}
-        {#        {{ xray.smoke }}#}
-        {#        {{ xray.pneumonia }}#}
 
-        {% if flag == 2 %}
-            <div class="">
-                <div>
-                    <span class="alert-danger" >您的预后影响分析为：<span style="font-size: 18pt"><b>高风险</b></span></span>
-                </div>
-                <div>
-                    <p>您的胸部X光片发现异常！该诊疗结果不代表最终结果，请尽快前往医院做进一步筛查</p>
-                </div>
-            </div>
-        {% elif flag == 1 %}
-            <div class="">
-                <div>
-                    <span class="alert-danger">您的预后影响分析为：中风险</span>
-                </div>
-                <div>
-                    <p>您的胸部X光片未发现明显异常，但您的二氧化硅、石棉粉尘接触史和较高的年龄使得您成为尘肺的高危人群，请您定期检查，
-                    注意身体健康，发现异常应及时就医</p>
-                </div>
-            </div>
-        {% elif flag == 0 %}
-            <div class="ml-5">
-                <div>
-                    <span class="alert-success">您的预后影响分析为：低风险</span>
-                </div>
-                <div>
-                    <p>未发现明显异常</p>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-    <div id="main" style="width: 600px;height:400px;"></div>
-    <div class="row">
-        <h1 class="">诊疗建议</h1>
-
-        <div>
-            {% for i in lst %}
-                <p>{{ i }}</p>
-            {% endfor %}
+{% block bar %}
+    <div class="content-section">
+        <div class="container mt-3 mb-4">
+            {#                <h2>目录</h2>#}
+            <ul class="nav nav-pills flex-column" role="tablist">
+                <li class="nav-item ">
+                    <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('diagnosis') }}">输入信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-bs-toggle="pill" href="{{ url_for('account') }}">诊断结果</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" data-bs-toggle="pill"
+                       href="{{ url_for('redirect_detail') }}">预后分析</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#advise">诊疗建议</a>
+                </li>
+            </ul>
         </div>
     </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1>详情信息</h1>
+            {#        {{ xray.exposure_year }}#}
+            {#        {{ xray.age }}#}
+            {#        {{ xray.smoke }}#}
+            {#        {{ xray.pneumonia }}#}
+
+            {% if flag == 2 %}
+                <div class="">
+                    <div>
+                        <span class="alert-danger">您的预后影响分析为：<span style="font-size: 18pt"><b>高风险</b></span></span>
+                    </div>
+                    <div>
+                        <p>您的胸部X光片发现异常！该诊疗结果不代表最终结果，请尽快前往医院做进一步筛查</p>
+                    </div>
+                </div>
+            {% elif flag == 1 %}
+                <div class="">
+                    <div>
+                        <span class="alert-danger">您的预后影响分析为：中风险</span>
+                    </div>
+                    <div>
+                        <p>您的胸部X光片未发现明显异常，但您的二氧化硅、石棉粉尘接触史和较高的年龄使得您成为尘肺的高危人群，请您定期检查，
+                            注意身体健康，发现异常应及时就医</p>
+                    </div>
+                </div>
+            {% elif flag == 0 %}
+                <div class="ml-5">
+                    <div>
+                        <span class="alert-success">您的预后影响分析为：低风险</span>
+                    </div>
+                    <div>
+                        <p>未发现明显异常</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div id="main" style="width: 600px;height:400px;"></div>
+        <div class="row">
+            <h1 id="advise">诊疗建议</h1>
+
+            <div>
+                {% for i in lst %}
+                    <p>{{ i }}</p>
+                {% endfor %}
+            </div>
+        </div>
 
 
     </div>
@@ -60,96 +83,97 @@
         var chartDom = document.getElementById('main');
         var myChart = echarts.init(chartDom);
         var option;
-        var flag = {{ flag }}
+        var flag =
+        {{ flag }}
         var value = {{ score }}
-        {#var value = function (flag) {#}
-        {#    if (flag === 0) {#}
-        {#        return '20';#}
-        {#    } else if (flag === 1) {#}
-        {#        return '50';#}
-        {#    } else if (flag === 2) {#}
-        {#        return '80';#}
-        {#    }#}
-        {#    return '';#}
-        {#\}#}
-        option = {
-            series: [
-                {
-                    type: 'gauge',
-                    axisLine: {
-                        lineStyle: {
-                            width: 30,
-                            color: [
-                                [0.3, '#67e0e3'],
-                                [0.7, '#37a2da'],
-                                [1, '#fd666d']
-                            ]
-                        }
-                    },
-                    pointer: {
-                        itemStyle: {
-                            color: 'auto'
-                        }
-                    },
-                    axisTick: {
-                        distance: -30,
-                        length: 8,
-                        lineStyle: {
-                            color: '#fff',
-                            width: 2
-                        }
-                    },
-                    splitLine: {
-                        distance: -30,
-                        length: 30,
-                        lineStyle: {
-                            color: '#fff',
-                            width: 4
-                        }
-                    },
-                    axisLabel: {
-                        color: 'auto',
-                        fontSize: 20,
-                        distance: 40,
-                        // rotate: 'tangential',
-                        formatter: function (value) {
-                            if (value === 20) {
-                                return '低风险';
-                            } else if (value === 50) {
-                                return '中风险';
-                            } else if (value === 80) {
-                                return '高风险';
+            {#var value = function (flag) {#}
+            {#    if (flag === 0) {#}
+            {#        return '20';#}
+            {#    } else if (flag === 1) {#}
+            {#        return '50';#}
+            {#    } else if (flag === 2) {#}
+            {#        return '80';#}
+            {#    }#}
+            {#    return '';#}
+            {#\}#}
+            option = {
+                series: [
+                    {
+                        type: 'gauge',
+                        axisLine: {
+                            lineStyle: {
+                                width: 30,
+                                color: [
+                                    [0.3, '#67e0e3'],
+                                    [0.7, '#37a2da'],
+                                    [1, '#fd666d']
+                                ]
                             }
-                            return '';
-                        }
-                    },
-                    // axisLabel:[
-                    //     '1',
-                    //     '1',
-                    //     '1'
-                    // ],
-                    detail: {
-                        valueAnimation: true,
-                        formatter: function (value) {
-                            if (value === 20) {
-                                return '低风险';
-                            } else if (value === 50) {
-                                return '中风险';
-                            } else if (value >= 80) {
-                                return '高风险';
-                            }
-                            return '';
                         },
-                        color: 'auto'
-                    },
-                    data: [
-                        {
-                            value: {{ score }}
-                        }
-                    ]
-                }
-            ]
-        }
+                        pointer: {
+                            itemStyle: {
+                                color: 'auto'
+                            }
+                        },
+                        axisTick: {
+                            distance: -30,
+                            length: 8,
+                            lineStyle: {
+                                color: '#fff',
+                                width: 2
+                            }
+                        },
+                        splitLine: {
+                            distance: -30,
+                            length: 30,
+                            lineStyle: {
+                                color: '#fff',
+                                width: 4
+                            }
+                        },
+                        axisLabel: {
+                            color: 'auto',
+                            fontSize: 20,
+                            distance: 40,
+                            // rotate: 'tangential',
+                            formatter: function (value) {
+                                if (value === 20) {
+                                    return '低风险';
+                                } else if (value === 50) {
+                                    return '中风险';
+                                } else if (value === 80) {
+                                    return '高风险';
+                                }
+                                return '';
+                            }
+                        },
+                        // axisLabel:[
+                        //     '1',
+                        //     '1',
+                        //     '1'
+                        // ],
+                        detail: {
+                            valueAnimation: true,
+                            formatter: function (value) {
+                                if (value === 20) {
+                                    return '低风险';
+                                } else if (value === 50) {
+                                    return '中风险';
+                                } else if (value >= 80) {
+                                    return '高风险';
+                                }
+                                return '';
+                            },
+                            color: 'auto'
+                        },
+                        data: [
+                            {
+                                value: {{ score }}
+                            }
+                        ]
+                    }
+                ]
+            }
         ;
         // setInterval(function () {
         //     myChart.setOption({

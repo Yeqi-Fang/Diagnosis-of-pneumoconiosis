@@ -286,3 +286,11 @@ def reset_token(token):
         flash('您的密码成功重置，请重新登录', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+@app.route("/redirect_detail", methods=['GET'])
+@login_required
+def redirect_detail():
+    last_xray = Xray.query.filter_by(author=current_user).all()[-1]
+    post_id = last_xray.id
+    return redirect(url_for('details', post_id=post_id))
