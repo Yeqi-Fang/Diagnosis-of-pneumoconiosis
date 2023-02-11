@@ -24,12 +24,8 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="row">
+
             <h1>详情信息</h1>
-            {#        {{ xray.exposure_year }}#}
-            {#        {{ xray.age }}#}
-            {#        {{ xray.smoke }}#}
-            {#        {{ xray.pneumonia }}#}
 
             {% if flag == 2 %}
                 <div class="">
@@ -63,9 +59,6 @@
         </div>
         <div id="main" style="width: 600px;height:400px;"></div>
 
-
-
-    </div>
     <a class="btn btn-primary" href="{{ url_for('prescriptions', post_id=post_id) }}">诊疗建议</a>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 
