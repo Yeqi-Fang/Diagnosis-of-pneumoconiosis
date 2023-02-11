@@ -128,6 +128,13 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+
+
+                    <label for="myfile">请上传Excel表格</label>
+                    <input type="file" id="myfile" name="myfile">
+
+                </div>
+                <div class="form-group">
                     {{ form.picture.label() }}
                     {{ form.picture(class="form-control-file") }}
                     {% if form.picture.errors %}
