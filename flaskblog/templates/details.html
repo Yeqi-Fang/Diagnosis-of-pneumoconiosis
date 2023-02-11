@@ -62,19 +62,11 @@
             {% endif %}
         </div>
         <div id="main" style="width: 600px;height:400px;"></div>
-        <div class="row">
-            <h1 id="advise">诊疗建议</h1>
 
-            <div>
-                {% for i in lst %}
-                    <p>{{ i }}</p>
-                {% endfor %}
-            </div>
-        </div>
 
 
     </div>
-
+    <a class="btn btn-primary" href="{{ url_for('prescriptions', post_id=post_id) }}">诊疗建议</a>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 
     <script type="text/javascript">

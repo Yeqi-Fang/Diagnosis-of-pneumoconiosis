@@ -171,7 +171,20 @@ def details(post_id):
     flag, cnt, lst = get_counsel(xray=xray)
     txt, score = get_txt(flag, cnt)
 
-    return render_template('details.html', xray=xray, lst=lst, flag=flag, txt=txt, score=score)
+    return render_template('details.html', xray=xray, lst=lst, flag=flag, txt=txt, score=score, post_id=post_id)
+
+
+@app.route("/prescriptions/<post_id>")
+@login_required
+def prescriptions(post_id):
+    # xray = Xray.query.filter_by(user_id=current_user.id).order_by(Xray.id).all()[-1]
+
+    xray = Xray.query.filter_by(id=post_id, author=current_user).first_or_404()
+    # if xray:
+    flag, cnt, lst = get_counsel(xray=xray)
+    txt, score = get_txt(flag, cnt)
+
+    return render_template('prescriptions.html', xray=xray, lst=lst, flag=flag, txt=txt, score=score)
 
 
 def get_txt(flag, cnt):
