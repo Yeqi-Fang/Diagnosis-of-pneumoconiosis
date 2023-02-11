@@ -42,6 +42,7 @@ class Diagnosis(FlaskForm):
     exposure_year = FloatField('二氧化硅、石棉粉尘暴露时间/年，没有请填“0”',
                                validators=[InputRequired(), NumberRange(min=0, max=50)])
     smoke = FloatField('吸烟史/年，没有请填“0”', validators=[InputRequired(), NumberRange(min=0, max=50)])
+    drink = FloatField('酗酒史/年，没有请填“0”', validators=[InputRequired(), NumberRange(min=0, max=50)])
     picture = FileField('您的胸部X光片， 请提交PNG，JPG格式', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('上传')
 

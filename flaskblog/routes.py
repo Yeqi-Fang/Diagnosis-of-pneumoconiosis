@@ -121,7 +121,7 @@ def diagnosis():
             pneumonia = bool(np.round(pred[:, 1][0]))
             xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
                         pneumonia=pneumonia, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
-                        author=current_user)
+                        drink=form.drink.data, author=current_user)
             db.session.add(xray)
             db.session.commit()
 
