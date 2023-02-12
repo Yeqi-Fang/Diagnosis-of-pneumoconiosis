@@ -36,7 +36,7 @@ class LoginForm(FlaskForm):
 
 
 class Diagnosis(FlaskForm):
-    name = StringField('名字', validators=[DataRequired(), Length(min=2, max=10)])
+    name = StringField('姓名', validators=[DataRequired(), Length(min=2, max=10)])
     age = IntegerField('年龄', validators=[DataRequired(), NumberRange(min=0, max=130)])
     sex = SelectField('性别', choices=[('男', '男'), ('女', '女')], validators=[DataRequired()])
     exposure_year = FloatField('二氧化硅、石棉粉尘暴露时间/年，没有请填“0”',
