@@ -107,8 +107,8 @@ def diagnosis():
             picture_file = save_picture(form.picture.data)
             path = os.path.join('flaskblog/static/profile_pics', picture_file)
             print(path)
-            path = url_for('static', filename='profile_pics/' + picture_file)
-
+            path = '.' + url_for('static', filename='profile_pics/' + picture_file)
+            print(path)
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
             image = np.array(image)

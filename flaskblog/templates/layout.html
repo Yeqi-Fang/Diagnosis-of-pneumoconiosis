@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="../static/echarts.js"></script>
+    <script src="{{ url_for('static', filename='echarts.js') }}"></script>
     {% if title %}
         <title>Flask Blog - {{ title }}</title>
     {% else %}
@@ -20,7 +20,7 @@
 </head>
 <body>
 <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
         <div class="container">
             <a class="navbar-brand mr-4" href="{{ url_for('home') }}">尘肺诊断</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -46,6 +46,7 @@
         </div>
     </nav>
 </header>
+
 <main role="main" class="container">
     <div class="row">
         <div class="col-md-3">
