@@ -3,6 +3,7 @@ import secrets
 import numpy as np
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, session
+# from flask_s3 import url_for
 from . import app, db, bcrypt, mail
 from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Xray
@@ -35,6 +36,8 @@ model.load_weights("flaskblog/model.hdf5")
 @app.route("/home")
 def home():
     # posts = Post.query.all()
+    print(url_for('static', filename='test'))
+    print('fa')
     return render_template('home.html')
 
 
@@ -86,6 +89,9 @@ def save_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    print(picture_path)
+    # picture_path = url_for('static', filename='profile_pics/' + picture_fn)
+    # print(picture_path)
     i = Image.open(form_picture)
     i.save(picture_path)
     return picture_fn
@@ -99,10 +105,9 @@ def diagnosis():
     if request.method == 'POST':
         if form.validate_on_submit():
             picture_file = save_picture(form.picture.data)
-            path = os.path.join(
-                'flaskblog/static/profile_pics',
-                picture_file)
+            path = os.path.join('flaskblog/static/profile_pics', picture_file)
             print(path)
+            path = url_for('static', filename='profile_pics/' + picture_file)
 
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
@@ -130,8 +135,7 @@ def diagnosis():
 
     image_file = url_for('static', filename='default.jpeg')
     print('image_file', image_file)
-    return render_template('diagnose.html', title='diagnose',
-                           image_file=image_file, form=form)
+    return render_template('diagnose.html', title='diagnose', image_file=image_file, form=form)
 
 
 @app.route("/account", methods=['GET'])

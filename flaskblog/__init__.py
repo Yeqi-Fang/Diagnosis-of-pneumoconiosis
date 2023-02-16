@@ -6,8 +6,14 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_s3 import FlaskS3
+
+
+from flask import url_for
 
 app = Flask(__name__)
+
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 # sqlite:///site.db
@@ -17,16 +23,17 @@ app.config['MAIL_PORT'] = 587  # for outlook25
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+app.config['FLASKS3_BUCKET_NAME'] = 'testing-bucket-flask2'
+app.config['AWS_ACCESS_KEY_ID'] = 'AKIAX4J52KIHRW23VWEA'
+app.config['AWS_SECRET_ACCESS_KEY'] = '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'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
+s3 = FlaskS3(app)
 
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
-
-
 from . import routes
-
