@@ -1,7 +1,10 @@
 import os
 import secrets
+
+import boto3
 import numpy as np
 from PIL import Image
+from botocore.exceptions import ClientError
 from flask import render_template, url_for, flash, redirect, request, session
 # from flask_s3 import url_for
 from . import app, db, bcrypt, mail
@@ -15,7 +18,7 @@ from tensorflow.keras import optimizers
 from flask_mail import Message
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
+bucketname = 'testing-bucket-flask2'
 SIZE = 150
 conv_base = VGG16(weights='imagenet',
                   include_top=False,
@@ -31,6 +34,7 @@ model.compile(optimizer=optimizers.Adam(lr=0.0005 / 100),
               loss='mse',
               metrics=['accuracy'])
 model.load_weights("flaskblog/model.hdf5")
+s3 = boto3.client('s3')
 
 
 @app.route("/home")
@@ -84,6 +88,21 @@ def logout():
     return redirect(url_for('diagnosis'))
 
 
+def upload_file(file_name, bucket, object_name=None):
+    # If S3 object_name was not specified, use file_name
+    if object_name is None:
+        object_name = os.path.basename(file_name)
+
+    # Upload the file
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.upload_file(file_name, bucket, object_name)
+    except ClientError as e:
+        print(e)
+        return False
+    return True
+
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -94,7 +113,15 @@ def save_picture(form_picture):
     # print(picture_path)
     i = Image.open(form_picture)
     i.save(picture_path)
+    upload_file(picture_path, 'testing-bucket-flask2', f'static/profile_pics/{picture_fn}')
     return picture_fn
+
+
+def open_path(filepath, bucketname):
+    if not os.path.exists(filepath):
+        file_name = os.path.basename(filepath)
+        with open(filepath, 'wb') as f:
+            s3.download_fileobj(bucketname, 'static/profile_pics/' + file_name, f)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,9 +133,10 @@ def diagnosis():
         if form.validate_on_submit():
             picture_file = save_picture(form.picture.data)
             path = os.path.join('flaskblog/static/profile_pics', picture_file)
-            print(path)
-            path = '.' + url_for('static', filename='profile_pics/' + picture_file)
-            print(path)
+            # print(path)
+            # path = '.' + url_for('static', filename='profile_pics/' + picture_file)
+            # print(path)
+            open_path(path, bucketname=bucketname)
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
             image = np.array(image)
@@ -148,6 +176,8 @@ def account():
     Xrays = Xray.query.filter_by(user_id=current_user.id)
     for Xray_ in Xrays:
         image_file = url_for('static', filename='profile_pics/' + Xray_.pic_address)
+        image_path = os.path.join('flaskblog/static/profile_pics', Xray_.pic_address)
+        open_path(image_path, bucketname)
         print('account', image_file)
         image_files.append(image_file)
         dates.append(Xray_.date_posted)

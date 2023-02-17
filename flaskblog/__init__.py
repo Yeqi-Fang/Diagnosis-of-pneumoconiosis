@@ -1,5 +1,6 @@
 import os
 
+import boto3
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -14,6 +15,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # sqlite:///site.db
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'  #
@@ -26,12 +28,14 @@ app.config['AWS_ACCESS_KEY_ID'] = 'AKIAX4J52KIHRW23VWEA'
 app.config['AWS_SECRET_ACCESS_KEY'] = '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'
 app.config['FLASKS3_BUCKET_DOMAIN'] = u's3.ap-northeast-1.amazonaws.com'
 # https://testing-bucket-flask2./static/default.jpeg
+
+s3 = boto3.client('s3')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
-s3 = FlaskS3(app)
+# s3 = FlaskS3(app)
 
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'

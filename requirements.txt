@@ -59,3 +59,5 @@ zipp==3.11.0
 psycopg2==2.9.5
 flask-s3==0.3.3
 opencv-python~=4.5.4.58
+boto3~=1.26.71
+botocore~=1.29.71
