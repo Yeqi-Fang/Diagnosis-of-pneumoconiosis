@@ -19,7 +19,10 @@ from tensorflow.keras import optimizers
 from flask_mail import Message
 
 if platform == 'linux':
-    subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'], shell=True)
+    subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'])
+    subprocess.run(['ls', '~/.aws'])
+
+
 print(platform + '\n\n\n')
 
 os.environ['AWS_DEFAULT_REGION'] = "ap-northeast-1"
