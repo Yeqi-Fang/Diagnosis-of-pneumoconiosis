@@ -18,7 +18,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras import optimizers
 from flask_mail import Message
 
-if platform == 'liunx':
+if platform == 'linux':
     subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'], shell=True)
 print(platform + '\n\n\n')
 
