@@ -18,12 +18,12 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras import optimizers
 from flask_mail import Message
 
-if platform == 'linux':
-    subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'])
-    subprocess.run(['ls', '~/.aws'])
-
-print('OS')
-print(platform + '\n\n\n')
+# if platform == 'linux':
+#     subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'])
+#     subprocess.run(['ls', '~/.aws'])
+#
+# print('OS')
+# print(platform + '\n\n\n')
 
 os.environ['AWS_DEFAULT_REGION'] = "ap-northeast-1"
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -43,8 +43,8 @@ model.compile(optimizer=optimizers.Adam(lr=0.0005 / 100),
               loss='mse',
               metrics=['accuracy'])
 model.load_weights("flaskblog/model.hdf5")
-s3 = boto3.client('s3', aws_access_key_id='AKIAX4J52KIHRW23VWEA',
-                  aws_secret_access_key='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')
+s3 = boto3.client('s3', aws_access_key_id=os.environ.get('aws_access_key_id'),
+                  aws_secret_access_key=os.environ.get('aws_secret_access_key'))
 
 
 @app.route("/home")
