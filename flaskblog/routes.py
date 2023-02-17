@@ -7,6 +7,7 @@ from PIL import Image
 from botocore.exceptions import ClientError
 from flask import render_template, url_for, flash, redirect, request, session
 # from flask_s3 import url_for
+from sys import platform
 from . import app, db, bcrypt, mail
 from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Xray
@@ -17,8 +18,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras import optimizers
 from flask_mail import Message
 
-subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'], shell=True)
-
+if platform == 'liunx':
+    subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'], shell=True)
+print(platform + '\n\n\n')
 
 os.environ['AWS_DEFAULT_REGION'] = "ap-northeast-1"
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -40,6 +42,7 @@ model.compile(optimizer=optimizers.Adam(lr=0.0005 / 100),
 model.load_weights("flaskblog/model.hdf5")
 s3 = boto3.client('s3', aws_access_key_id='AKIAX4J52KIHRW23VWEA',
                   aws_secret_access_key='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')
+
 
 @app.route("/home")
 def home():
