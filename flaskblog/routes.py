@@ -1,3 +1,4 @@
+import builtins
 import os
 import secrets
 import subprocess
@@ -351,16 +352,22 @@ def reset_token(token):
 @app.route("/redirect_detail", methods=['GET'])
 @login_required
 def redirect_detail():
-    last_xray = Xray.query.filter_by(author=current_user).all()[-1]
-    post_id = last_xray.id
+    try:
+        last_xray = Xray.query.filter_by(author=current_user).all()[-1]
+        post_id = last_xray.id
+    except builtins.IndexError:
+        return redirect(url_for('account'))
     return redirect(url_for('details', post_id=post_id))
 
 
 @app.route("/redirect_prescription", methods=['GET'])
 @login_required
 def redirect_prescription():
-    last_xray = Xray.query.filter_by(author=current_user).all()[-1]
-    post_id = last_xray.id
+    try:
+        last_xray = Xray.query.filter_by(author=current_user).all()[-1]
+        post_id = last_xray.id
+    except builtins.IndexError:
+        return redirect(url_for('account'))
     return redirect(url_for('prescriptions', post_id=post_id))
 
 
