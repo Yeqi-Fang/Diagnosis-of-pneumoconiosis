@@ -43,15 +43,16 @@ model.compile(optimizer=optimizers.Adam(lr=0.0005 / 100),
               loss='mse',
               metrics=['accuracy'])
 model.load_weights("flaskblog/model.hdf5")
-s3 = boto3.client('s3', aws_access_key_id=os.environ.get('aws_access_key_id'),
+s3 = boto3.client('s3',
+                  aws_access_key_id=os.environ.get('aws_access_key_id'),
                   aws_secret_access_key=os.environ.get('aws_secret_access_key'))
 
 
 @app.route("/home")
 def home():
     # posts = Post.query.all()
-    print(url_for('static', filename='test'))
-    print('fa')
+    # print(url_for('static', filename='test'))
+    # print('fa')
     return render_template('home.html')
 
 
@@ -122,6 +123,7 @@ def save_picture(form_picture):
     i = Image.open(form_picture)
     i.save(picture_path)
     upload_file(picture_path, 'testing-bucket-flask2', f'static/profile_pics/{picture_fn}')
+    print(os.environ.get('aws_access_key_id'))
     return picture_fn
 
 
@@ -195,11 +197,14 @@ def account():
     flag = 0
     if x:
         flag = 1
-    xray = Xray.query.filter_by(user_id=current_user.id).order_by(Xray.id.desc()).first_or_404()
+    xray = Xray.query.filter_by(user_id=current_user.id).order_by(Xray.id.desc()).first()
     # xray = xrays[-1]
-    flag1, cnt, lst = get_counsel(xray=xray)
-    txt, _ = get_txt(flag1, cnt)
-    # session['xray_id'] =
+    if xray:
+        flag1, cnt, lst = get_counsel(xray=xray)
+        txt, _ = get_txt(flag1, cnt)
+        # session['xray_id'] =
+    else:
+        return render_template('account.html', img_date_result_id=x, flag=flag, txt='')
     return render_template('account.html', img_date_result_id=x, flag=flag, txt=txt)
 
 
