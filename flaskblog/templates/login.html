@@ -74,7 +74,7 @@
                             {{ form.email.label(class="form-control-label") }}
                             {#                    <div class="ml-1">用户名</div>#}
                             {% if form.email.errors %}
-                                {{ form.email(class="form-control form-control-lg is-invalid transparent-input") }}
+                                {{ form.email(class="form-control form-control-lg is-invalid transparent-input" ,placeholder='请输入您的邮箱') }}
                                 <div class="invalid-feedback">
                                     {% for error in form.email.errors %}
                                         <span>{{ error }}</span>
@@ -95,7 +95,7 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.password(class="form-control form-control-lg") }}
+                                {{ form.password(class="form-control form-control-lg",placeholder='请输入您的密码') }}
                             {% endif %}
                         </div>
                         <div class="form-check">
