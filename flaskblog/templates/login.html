@@ -81,14 +81,14 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.email(class="form-control form-control-lg transparent-input ",placeholder='Field title...') }}
+                                {{ form.email(class="form-control form-control-lg transparent-input ",placeholder='请输入您的邮箱') }}
                             {% endif %}
                         </div>
                         <div class="form-group">
                             {{ form.password.label(class="form-control-label") }}
                             {#                    <div class="ml-1">密码</div>#}
                             {% if form.password.errors %}
-                                {{ form.password(class="form-control form-control-lg is-invalid") }}
+                                {{ form.password(class="form-control form-control-lg is-invalid" ,placeholder='请输入您的密码') }}
                                 <div class="invalid-feedback">
                                     {% for error in form.password.errors %}
                                         <span>{{ error }}</span>
@@ -104,13 +104,14 @@
                             {{ form.remember.label(class="form-check-label") }}
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             {{ form.submit(class="btn btn-outline-info") }}
                         </div>
                         <small class="text-muted ml-1">
                             <a href="{{ url_for('reset_request') }}">忘记密码？</a>
                         </small>
-
+                    </fieldset>
+                </form>
             </div>
             <div class="border-top pt-3">
                 <small class="text-muted ml-2">
