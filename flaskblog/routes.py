@@ -1,5 +1,6 @@
 import builtins
 import os
+import random
 import secrets
 import subprocess
 import boto3
@@ -260,26 +261,26 @@ def get_counsel(xray):
     cnt = 0
     if not xray.pneumonia:
         lst = [
-            '1、建议定期复查，出入含粉尘场所做好防护措施，避免接触职业性或生活性粉尘。替换工作中的粉尘材料，消除粉尘暴露',
-            '2、建议应用合理的劳动保护措施，施工时，使用防护系数高的呼吸器',
-            '3、建议完善胸部CT，进行下一步筛查。',
-            '4、建议保持良好的生活习惯，采取健康的生活方式。'
+            '1、建议减少粉尘暴露',
+            '2、建议完善胸部CT，进行下一步医学筛查及监测',
+            '3、建议保持良好的生活习惯，采取健康的生活方式。',
         ]
         if exposure_year > 5 and xray.age > 45:
             return 1, cnt, lst
         else:
             return 0, cnt, lst
     else:
-        lst = [
-            '建议采取药物治疗，可采用扩张支气管的药物来缓解患者出现的呼吸困难等问题。建议使用抗感染的药物进行对应炎症的治疗。建议进行尘肺抗纤维化的治疗。',
-            '建议预防感冒、呼吸道及肺部感染，做好自我管理，预防并发症感染，防止肺心病急性加重。',
-            '建议科学膳食，增加优质高蛋白饮食如蛋类、奶类、瘦肉等的摄入，保证营养。',
+        lst_condidate = [
+            '建议使用抗感染的药物进行对应炎症的治疗',
+            '建议予以临床对症干预治疗。包括:抗菌、吸氧、抗感染、解痉、祛痰镇咳、平喘及营养支持等综合治疗。常用药物:硫酸沙丁胺醇气雾、氨茶碱、舍雷肽酶、可待因等',
+            '建议采取肺康复治疗，包括排痰训练、呼吸肌训练、运动训练和健康教育等',
+            '建议根据主要症状情况，参考采用中医辩证方式治疗',
+            '建议预防感冒、呼吸道及肺部感染，预防并排查肺结核、肺气肿、慢性阻塞肺病等并发症或合并症感染',
+            '建议科学膳食，增加优质高蛋白饮食摄入，多进食高热量、高维生素的清淡食物',
             '建议避免恐惧、焦虑等不良心理，必要时可由心理治疗师专人辅导',
-            '建议采取呼吸康复训练，包括呼吸控制训练、呼吸肌训练、轮廓放松训练、咳嗽训练、体位排痰法等。同时可进行适当运动。'
         ]
-        if exposure_year == float(0):
-            pass
-        else:
+        lst = []
+        if exposure_year != float(0):
             lst.append(
                 f'您的二氧化硅或石棉粉尘暴露史为{int(exposure_year)}年，有{"一定" if exposure_year < 3 else "很高"}'
                 f'的风险，建议筛查结核病，患者应通过结核菌素皮肤试验或血液试验进行结核病的筛查')
@@ -290,7 +291,10 @@ def get_counsel(xray):
         if xray.smoke:
             lst.append('建议戒烟，同时避免二手烟的吸入')
             cnt += 1
+        consult = random.sample(lst_condidate, 5 - cnt)
+        lst += consult
         L = []
+
         for index, item in enumerate(lst):
             i = f'{str(index + 1)}、{item}'
             L.append(i)
