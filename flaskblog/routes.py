@@ -56,7 +56,7 @@ model.add(Dense(1, activation='sigmoid'))
 # model.compile(optimizer=optimizers.Adam(lr=LEARNING_RATE),
 #               loss='binary_crossentropy', metrics=['mae']
 #               )
-model.load_weights("flaskblog/model2.hdf5")
+model.load_weights("flaskblog/model.hdf5")
 
 s3 = boto3.client('s3',
                   aws_access_key_id=os.environ.get('aws_access_key_id'),
