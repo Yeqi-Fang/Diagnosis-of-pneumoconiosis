@@ -1,4 +1,5 @@
 .idea
 migrations
 flaskblog/test
+*.pyc
 
