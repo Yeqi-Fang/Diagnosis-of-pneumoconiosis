@@ -44,7 +44,7 @@ class Xray(db.Model):
     exposure_year = db.Column(db.Float, nullable=False)
     smoke = db.Column(db.Float, nullable=False)
     drink = db.Column(db.Float, nullable=False)
-    pneumonia = db.Column(db.Boolean, nullable=True)
+    pneumonia = db.Column(db.Integer, nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     pic_address = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

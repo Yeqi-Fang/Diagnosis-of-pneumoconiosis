@@ -14,11 +14,11 @@ from . import app, db, bcrypt, mail
 from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Xray
 from flask_login import login_user, current_user, logout_user, login_required
-from tensorflow.keras.applications import VGG16
-from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import optimizers
 from flask_mail import Message
+from tensorflow.keras import regularizers, initializers
+from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten, GlobalAveragePooling2D, Dropout, BatchNormalization
 
 # if platform == 'linux':
 #     subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'])
@@ -30,21 +30,34 @@ from flask_mail import Message
 os.environ['AWS_DEFAULT_REGION'] = "ap-northeast-1"
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 bucketname = 'testing-bucket-flask2'
-SIZE = 150
-conv_base = VGG16(weights='imagenet',
-                  include_top=False,
-                  input_shape=(SIZE, SIZE, 3))
-conv_base.trainable = False
+RegL = 0.0
+SIZE = 750
+EPOCHS = 100
+DROPOUT_RATE = 0.55
+INPUT_SHAPE = (SIZE, SIZE, 3)
+
+conv_base = EfficientNetB0(input_shape=(SIZE, SIZE, 3), weights='imagenet', include_top=False)
 model = Sequential()
 model.add(conv_base)
-model.add(Flatten(input_shape=conv_base.output_shape[1:]))
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(2, activation='softmax'))
-model.compile(optimizer=optimizers.Adam(lr=0.0005 / 100),
-              loss='mse',
-              metrics=['accuracy'])
-model.load_weights("flaskblog/model.hdf5")
+model.add(GlobalAveragePooling2D())
+model.add(Dense(1024, activation='relu', kernel_regularizer=regularizers.l2(RegL),
+                kernel_initializer=initializers.TruncatedNormal(mean=0.0, stddev=0.05)
+                ))
+model.add(Dropout(DROPOUT_RATE))
+model.add(Dense(128, activation='relu', kernel_regularizer=regularizers.l2(RegL),
+                kernel_initializer=initializers.TruncatedNormal(mean=0.0, stddev=0.05)
+                ))
+model.add(Dropout(DROPOUT_RATE))
+model.add(Dense(32, activation='relu', kernel_regularizer=regularizers.l2(RegL),
+                kernel_initializer=initializers.TruncatedNormal(mean=0.0, stddev=0.05)
+                ))
+model.add(Dropout(DROPOUT_RATE))
+model.add(Dense(1, activation='sigmoid'))
+# model.compile(optimizer=optimizers.Adam(lr=LEARNING_RATE),
+#               loss='binary_crossentropy', metrics=['mae']
+#               )
+model.load_weights("flaskblog/model2.hdf5")
+
 s3 = boto3.client('s3',
                   aws_access_key_id=os.environ.get('aws_access_key_id'),
                   aws_secret_access_key=os.environ.get('aws_secret_access_key'))
@@ -136,6 +149,19 @@ def open_path(filepath, bucketname):
             s3.download_fileobj(bucketname, 'static/profile_pics/' + file_name, f)
 
 
+def divide(y):
+    i, j, k = .45, 1.55, 2.45
+    if y < i:
+        x = 0
+    elif i <= y < j:
+        x = 1
+    elif j <= y < k:
+        x = 2
+    else:
+        x = 3
+    return x
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route("/diagnosis", methods=['GET', 'POST'])
 @login_required
@@ -152,7 +178,7 @@ def diagnosis():
             image = Image.open(path)
             image = image.resize((SIZE, SIZE))
             image = np.array(image)
-            if image.shape == (150, 150):
+            if image.shape == (SIZE, SIZE):
                 print(image.shape)
                 image = image[np.newaxis, :, :, np.newaxis]
                 print(image.shape)
@@ -162,8 +188,8 @@ def diagnosis():
                 image = image[np.newaxis, :, :, :]
 
             image = np.array(image, dtype='float16')
-            pred = model.predict(image)
-            pneumonia = bool(np.round(pred[:, 1][0]))
+            pred = model.predict(image)[0][0]
+            pneumonia = divide(pred)
             xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
                         pneumonia=pneumonia, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
                         drink=form.drink.data, author=current_user)
@@ -201,10 +227,14 @@ def account():
         flag = 1
     xray = Xray.query.filter_by(user_id=current_user.id).order_by(Xray.id.desc()).first()
     # xray = xrays[-1]
+
     if xray:
-        flag1, cnt, lst = get_counsel(xray=xray)
-        txt, _ = get_txt(flag1, cnt)
+        # flag1, cnt, lst = get_counsel(xray=xray)
+        # txt, _ = get_txt(flag1, cnt)
+        dic = {0: '正常', 1: '尘肺Ⅰ期', 2: '尘肺Ⅱ期', 3: '尘肺Ⅲ期'}
+        # txt = dic[xray.]
         # session['xray_id'] =
+        txt = dic[xray.pneumonia]
     else:
         return render_template('account.html', img_date_result_id=x, flag=flag, txt='')
     return render_template('account.html', img_date_result_id=x, flag=flag, txt=txt)
@@ -259,7 +289,7 @@ def get_txt(flag, cnt):
 def get_counsel(xray):
     exposure_year = xray.exposure_year
     cnt = 0
-    if not xray.pneumonia:
+    if xray.pneumonia == 0:
         lst = [
             '1、建议减少粉尘暴露',
             '2、建议完善胸部CT，进行下一步医学筛查及监测',

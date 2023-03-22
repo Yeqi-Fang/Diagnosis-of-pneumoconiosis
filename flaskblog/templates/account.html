@@ -84,7 +84,7 @@
                         <div class="site-header"><span>{{ date.strftime('%Y-%m-%d %H:%M:%S') }}</span></div>
                         <div class="article-title mr-3">
                             <div class="row">
-                                {% if result==True %}
+                                {% if result!=0 %}
                                     <div class="col">
                                         <span class="alert-danger mb-2"
                                               style="font-size:14pt">您的诊断结果为：<b>异常</b></span>
