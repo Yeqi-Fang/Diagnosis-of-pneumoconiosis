@@ -2,14 +2,12 @@ import builtins
 import os
 import random
 import secrets
-import subprocess
 import boto3
 import numpy as np
 from PIL import Image
 from botocore.exceptions import ClientError
 from flask import render_template, url_for, flash, redirect, request, session
 # from flask_s3 import url_for
-from sys import platform
 from . import app, db, bcrypt, mail
 from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
 from flaskblog.models import User, Xray
@@ -188,7 +186,7 @@ def diagnosis():
                 image = image[np.newaxis, :, :, :]
 
             image = np.array(image, dtype='float16')
-            pred = model.predict(image)[0][0]
+            pred = 3.5 * (model.predict(image)[0][0] - 0.05)
             pneumonia = divide(pred)
             xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
                         pneumonia=pneumonia, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
@@ -235,6 +233,7 @@ def account():
         # txt = dic[xray.]
         # session['xray_id'] =
         txt = dic[xray.pneumonia]
+        print(txt)
     else:
         return render_template('account.html', img_date_result_id=x, flag=flag, txt='')
     return render_template('account.html', img_date_result_id=x, flag=flag, txt=txt)
