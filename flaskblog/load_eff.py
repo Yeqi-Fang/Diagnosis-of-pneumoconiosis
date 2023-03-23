@@ -39,7 +39,7 @@ model.add(Dense(1, activation='sigmoid'))
 # model.compile(optimizer=optimizers.Adam(lr=LEARNING_RATE),
 #               loss='binary_crossentropy', metrics=['mae']
 #               )
-model.load_weights("model.hdf5")
+model.load_weights("model2.hdf5")
 
 image_path = r"D:\scu\Innovation\new\png\283646.png"
 image = cv2.imread(image_path)
