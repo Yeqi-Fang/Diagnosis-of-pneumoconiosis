@@ -2,7 +2,7 @@ import os
 import cv2
 import datetime
 import shutil
-
+import pandas as pd
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -39,11 +39,54 @@ model.add(Dense(1, activation='sigmoid'))
 # model.compile(optimizer=optimizers.Adam(lr=LEARNING_RATE),
 #               loss='binary_crossentropy', metrics=['mae']
 #               )
-model.load_weights("model2.hdf5")
+model.load_weights("model.hdf5")
 
-image_path = r"D:\scu\Innovation\new\png\273684.png"
+image_path = r"D:\scu\Innovation\new\png\283646.png"
 image = cv2.imread(image_path)
 image = cv2.resize(image, (SIZE, SIZE))
 image = image[np.newaxis, :, :, :]
-a = model.predict(image)
+a = (model.predict(image) - 0.05) * 3.5
 print(a[0, 0])
+
+#
+# def divide(y):
+#     i, j, k = .45, 1.55, 2.45
+#     if y < i:
+#         x = 0
+#     elif i <= y < j:
+#         x = 1
+#     elif j <= y < k:
+#         x = 2
+#     else:
+#         x = 3
+#     return x
+#
+#
+# image_directory = 'D:/scu/Innovation/new/png/'
+# images = os.listdir(image_directory)
+# xlsx_dir = r"D:\scu\Innovation\new\test2.xlsx"
+# dataset = []
+# labels = []
+# indexes = []
+# df = pd.read_excel(xlsx_dir)
+# df = df.set_index('胸片号')
+# series = df['尘肺期别']
+# for i, image_name in enumerate(images):
+#     if image_name.split('.')[1] == 'png':
+#         image = cv2.imread(image_directory + image_name, 1)
+#         image = cv2.resize(image, (SIZE, SIZE))
+#
+#         # 对于完整胸片
+#         index = int(image_name.split('.')[0])
+#         label = series[index]
+#
+#         # 公共
+#         dataset.append(np.array(image))
+#         # a = datagen.flow(image[np.newaxis, :, :, :])
+#         # for i in range(2):
+#         # dataset.append(np.squeeze(next(a)))
+#         labels.append(label)
+#         indexes.append(index)
+# dataset = np.array(dataset)
+# labels = np.array(labels)
+# pred = map(divide, (np.squeeze(model.predict(dataset)) - 0.05) * 3.5)

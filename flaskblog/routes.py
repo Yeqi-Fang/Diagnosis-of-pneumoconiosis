@@ -185,8 +185,9 @@ def diagnosis():
             else:
                 image = image[np.newaxis, :, :, :]
 
-            image = np.array(image, dtype='float16')
+            image = np.array(image, dtype='float32')
             pred = 3.5 * (model.predict(image)[0][0] - 0.05)
+            print(pred)
             pneumonia = divide(pred)
             xray = Xray(name=form.name.data, age=form.age.data, pic_address=picture_file, sex=form.sex.data,
                         pneumonia=pneumonia, exposure_year=form.exposure_year.data, smoke=form.smoke.data,
