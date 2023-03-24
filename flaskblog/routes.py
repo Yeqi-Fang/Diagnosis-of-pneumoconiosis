@@ -148,7 +148,7 @@ def open_path(filepath, bucketname):
 
 
 def divide(y):
-    i, j, k = .45, 1.55, 2.45
+    i, j, k = .6, 1.8, 2.45
     if y < i:
         x = 0
     elif i <= y < j:
