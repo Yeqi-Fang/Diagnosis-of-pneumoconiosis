@@ -30,15 +30,17 @@
 {% block content %}
     <div class="container">
 
-        <div class="row">
-            <div id="advise" class="h1 mb-5 mt-5">诊疗建议</div>
 
-            <div class="align-items-center">
+        <div id="advise" class="row h1 mb-5 mt-5 mr-5">诊疗建议</div>
+
+{#        <div class="row align-items-center">#}
+
                 {% for i in lst %}
-                    <p>{{ i }}</p>
+                    <div class="row mt-2">{{ i }}</div>
                 {% endfor %}
-            </div>
-        </div>
+
+
+{#        </div>#}
 
 
     </div>
