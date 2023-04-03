@@ -2,21 +2,23 @@ import builtins
 import os
 import random
 import secrets
+
 import boto3
 import numpy as np
 from PIL import Image
 from botocore.exceptions import ClientError
-from flask import render_template, url_for, flash, redirect, request, session
-# from flask_s3 import url_for
-from . import app, db, bcrypt, mail
-from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
-from flaskblog.models import User, Xray
+from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 from tensorflow.keras import regularizers, initializers
 from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, GlobalAveragePooling2D, Dropout, BatchNormalization
+
+from flaskblog.forms import RegistrationForm, LoginForm, Diagnosis, RequestResetForm, ResetPasswordForm
+from flaskblog.models import User, Xray
+# from flask_s3 import url_for
+from . import app, db, bcrypt, mail
 
 # if platform == 'linux':
 #     subprocess.run(['cp', '-r', 'flaskblog/.aws', '~/.aws'])
