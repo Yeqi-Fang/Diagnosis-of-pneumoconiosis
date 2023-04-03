@@ -34,8 +34,7 @@
         {% if flag == 2 %}
             <div class="">
                 <div>
-                    <span class="alert-danger">您的预后影响分析为：<span
-                            style="font-size: 18pt"><b>高风险</b></span></span>
+                    <span class="alert-danger" style="font-size: 18pt">您的预后影响分析为：<b>高风险</b></span>
                 </div>
                 <div>
                     <p>您的胸部X光片发现异常！该诊疗结果不代表最终结果，请尽快前往医院做进一步筛查</p>
@@ -44,7 +43,7 @@
         {% elif flag == 1 %}
             <div class="">
                 <div>
-                    <span class="alert-danger">您的预后影响分析为：中风险</span>
+                    <span class="alert-danger" style="font-size: 18pt">您的预后影响分析为：中风险</span>
                 </div>
                 <div>
                     <p>您的胸部X光片未发现明显异常，但您的二氧化硅、石棉粉尘接触史和较高的年龄使得您成为尘肺的高危人群，请您定期检查，
@@ -52,9 +51,9 @@
                 </div>
             </div>
         {% elif flag == 0 %}
-            <div class="ml-5">
+            <div class="">
                 <div>
-                    <span class="alert-success">您的预后影响分析为：低风险</span>
+                    <span class="alert-success" style="font-size: 18pt">您的预后影响分析为：低风险</span>
                 </div>
                 <div>
                     <p>未发现明显异常</p>
