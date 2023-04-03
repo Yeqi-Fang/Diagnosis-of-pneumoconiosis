@@ -55,10 +55,10 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="alert-success "
-                                          style="font-size:16pt">您的诊断结果为：<b>无尘肺</b></span>
+                                          style="font-size:18pt">您的诊断结果为：<b>无尘肺</b></span>
                                 </div>
                                 <div class="col">
-                                    <a class="btn btn-success ml-5"
+                                    <a class="btn btn-success ml-2"
                                        href="{{ url_for('details', post_id=img_date_result_id[0][3]) }}">查看详情</a>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                         {% endif %}
                     </div>
                     <div class="mt-3">
-                        <img class="mr-2" src="{{ img_date_result_id[0][0] }}" height="400">
+                        <img class="mr-2" src="{{ img_date_result_id[0][0] }}" width="60%">
                     </div>
 
 
@@ -106,7 +106,7 @@
                             </div>
 
                         </div>
-                        <img class="mr-2" src="{{ image_file }}" width=80%>
+                        <img class="mr-2" src="{{ image_file }}" width=70%>
 
                     </div>
                 </div>
