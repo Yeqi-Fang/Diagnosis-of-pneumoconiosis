@@ -1,17 +1,9 @@
-import os
 import cv2
-import datetime
-import shutil
-import pandas as pd
 import numpy as np
-import tensorflow as tf
-from PIL import Image
-from tensorflow import optimizers
 from tensorflow.keras import regularizers, initializers
-from tensorflow.keras.applications import ResNet50, EfficientNetB0, EfficientNetB1, MobileNetV2, EfficientNetV2B0, \
-    MobileNet, EfficientNetV2B2
+from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, GlobalAveragePooling2D, Dropout, BatchNormalization
 
 RegL = 0.0
 SIZE = 750

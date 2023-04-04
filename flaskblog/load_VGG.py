@@ -1,4 +1,5 @@
 import os
+
 import cv2
 import numpy as np
 from keras.applications import VGG16
@@ -7,7 +8,6 @@ from keras.models import Sequential
 from tensorflow import optimizers
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
 
 def dis(image_path):
     SIZE = 150

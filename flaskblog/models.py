@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask_login import UserMixin
-# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import URLSafeTimedSerializer as Serializer
 
 from . import db, login_manager, app
@@ -50,6 +49,7 @@ class Xray(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     pic_address = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     # advise = db.Column(db.Text, nullable=True)
 
     def __repr__(self):

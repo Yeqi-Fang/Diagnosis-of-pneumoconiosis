@@ -3,17 +3,15 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import (StringField, PasswordField, SubmitField,
                      BooleanField, IntegerField, FloatField, SelectField)
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError, InputRequired
+
 from flaskblog.models import User
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('用户名',
-                           validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('邮箱',
-                        validators=[DataRequired(), Email()])
+    username = StringField('用户名', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('邮箱', validators=[DataRequired(), Email()])
     password = PasswordField('密码', validators=[DataRequired()])
-    confirm_password = PasswordField('确认密码',
-                                     validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('确认密码', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('注册')
 
     def validate_username(self, username):

@@ -2,13 +2,13 @@ import os
 
 import boto3
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-# from flask_s3 import FlaskS3
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
+# from flask_s3 import FlaskS3
 # from flask import url_for
 
 app = Flask(__name__)
